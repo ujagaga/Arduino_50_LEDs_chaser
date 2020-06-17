@@ -1,0 +1,12 @@
+Koristimo Arduino Pro Mini plocu sa ATmega168 i port extender sa PCF8575.
+
+Da bi se povezalo 50 LED, potrebno je upotrebiti 3 port extender-a kojima treba konfigurisati razlicite adrese i povezati SCL i SDA linije sva tri module paralelno. 
+na jednom modulu treba postaviti pull-up otpornike za SCL i SDA liniju radi smanjenja smetnji i stabilnijeg rada.
+
+Na Arduino ploci, pin A7 se povezuje na potenciometar kojim se podesava napon od 0 do 5V za kontrolu duzine ukljucenja LED od 50ms do 1S.
+Kako port extender-i imaju po 16 pinova, potrebno je iskoristiti jos dva sa Arduino ploce za dve LED.
+
+Ostaje samo jos da se poveze napajanje. Plocice imaju ugradjen stabilizator napona 5V, pa na RAW pinu moze da se prikljuci napon 7,5V - 12V.
+treba izvuci pinove za programator kako bi se kod mogao prilagoditi potrebama. Ako se koristi stabilizator napona sa Arduino ploce, 
+treba imati na umu da on moze da obezbedi svega 100mA, pa nikako ne treba ukljuciti sve LED od jednom.
+Ako se koristi napajanje od 5V i crevene ili zelene LED sa padom napona od oko 1,7V, treba staviti otpornike na red sa svakom LED od oko 330R do 470R.
