@@ -3,7 +3,7 @@
 // Pin definitions
 // SDA => A4, SCL => A5
 
-#define POT_PIN   A7
+#define POT_PIN   A6
 #define LED_49    10
 #define LED_50    11
 
@@ -12,13 +12,76 @@ I2cDiscreteIoExpander expDevice[] = {0, 1, 2};
 
 uint8_t LED_counter = 0;          // A counter to be used for selecting which LED's will be lit.
 
-
 // Function to wait a specific number of ms.
 void wait_ms(int ms){
   int i;
   for(i = 0; i < ms; i++){
     delay(1);
   }
+}
+
+
+void testPins(){
+  LED_counter++;
+
+  switch(LED_counter){
+
+    case 1:{
+      // Activate first 8 bits on first port extender with one LED from the MCU board
+      setExpDevice(0, 0x00FF);
+      setExpDevice(1, 0);
+      setExpDevice(2, 0); 
+      delay(1000);
+    }break;
+
+    case 2:{
+      // Activate second 8 bits on first port extender with one LED from the MCU board
+      setExpDevice(0, 0xFF00);       
+      delay(1000);
+    }break;
+
+    case 3:{
+      // Activate first 8 bits on second port extender
+      setExpDevice(0, 0);   
+      setExpDevice(1, 0x00FF);   
+      delay(1000);
+    }break;
+
+    case 4:{
+      // Activate second 8 bits on second port extender
+      setExpDevice(1, 0xFF00);   
+      delay(1000);
+    }break;
+
+    case 5:{
+      // Activate first 8 bits on third port extender with one LED from the MCU board
+      setExpDevice(1, 0);   
+      setExpDevice(2, 0x00FF);
+      delay(1000);
+    }break;
+
+    case 6:{
+      // Activate second 8 bits on thirt port extender with one LED from the MCU board
+      setExpDevice(2, 0xFF00); 
+      digitalWrite(LED_49, HIGH);
+      digitalWrite(LED_50, HIGH);    
+      delay(1000);
+    }break;
+
+    case 7:{
+      digitalWrite(LED_49, LOW);
+      digitalWrite(LED_50, LOW);   
+      delay(1000);
+    }break;
+
+    case 8:{  
+      delay(1000);
+    }break;
+
+    default:{
+      LED_counter = 0;
+    }    
+  }  
 }
 
 
@@ -107,6 +170,11 @@ void setup() {
 
 /* A main loop that gets called periodically. */
 void loop() {
+  // Just a test to map pins properly
+  testPins();
+  return;
+
+  
 
   // Read potentiometer to get requested delay time
   int delayTime = analogRead(POT_PIN);
